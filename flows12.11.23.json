@@ -1,0 +1,1515 @@
+[
+    {
+        "id": "689525d2b0418bc9",
+        "type": "tab",
+        "label": "Properties",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "6b04ef086f6ceeab",
+        "type": "group",
+        "z": "689525d2b0418bc9",
+        "name": "Настройки плитки",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "12619ff6dc9ff25c",
+            "8b13d542fd91b9c6",
+            "728f3554a973baab",
+            "c2ba68fca1a350df",
+            "e8ab13135a55c2c2",
+            "f40aa3b089b9557e",
+            "bb5c81d1cc65154a",
+            "6c544b151d4ca137",
+            "614a035500daafd3",
+            "c0b2806be99caf07",
+            "4df882c2bec0eeaf",
+            "9f3b01a20033b654",
+            "89e7e43bc1eb3684",
+            "b634d2db94e2935f",
+            "47d1528da730f0a5",
+            "d07bf545c073aeae",
+            "0ba792ba1f529bbb"
+        ],
+        "x": 14,
+        "y": 39,
+        "w": 912,
+        "h": 202
+    },
+    {
+        "id": "9a2e40c463f71938",
+        "type": "group",
+        "z": "689525d2b0418bc9",
+        "name": "Настройки плитки",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "cea16552c2645a5b",
+            "1173066e3aeb9bd1",
+            "bed8b1a698097c77",
+            "b4ab6c8631d5b34f",
+            "bfa37e73fbd6e268",
+            "3f0a0d368ccb7664",
+            "d4acc5aa71b9ec45",
+            "ed683e7a1dc9acc2",
+            "48be7707fbfd218a",
+            "42f7bbafeae53f5d",
+            "49cd621a58436a00",
+            "98e244df847f1cd8",
+            "2fc4430d6c36c92b",
+            "42d9282f89b6e5a5",
+            "7b504fa562d3be08",
+            "25df1cd13ce7bb4a",
+            "5ef1562818897dd5"
+        ],
+        "x": 14,
+        "y": 259,
+        "w": 912,
+        "h": 202
+    },
+    {
+        "id": "b4d9458bdc57e976",
+        "type": "group",
+        "z": "689525d2b0418bc9",
+        "name": "Настройка состояния машины в ручном режиме",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "e83fdb465265039a",
+            "a5fe9d0f7ad6a0ee",
+            "1e91d634d6c36763",
+            "67685377850bfae8",
+            "a37412cc2382df3b",
+            "77127fc1e1b9c16a",
+            "31f461edc6a1512f",
+            "051c8c1c09216cb8",
+            "1e2b45a776c1f40b",
+            "1a471075877ffdce",
+            "de6400fd398eacda",
+            "a181fa0173df9933",
+            "43f0b3836ed4f1ca",
+            "87f930b8710e94c9",
+            "21586bd94f6e25e2"
+        ],
+        "x": 14,
+        "y": 519,
+        "w": 992,
+        "h": 262
+    },
+    {
+        "id": "9aa4b0bba078587c",
+        "type": "group",
+        "z": "689525d2b0418bc9",
+        "name": "DataContext Set настраиваем параметры коннекций",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "87088b0a3bb7a69a",
+            "83ca7f8c65331869",
+            "b694343cdfcf3c88"
+        ],
+        "x": 934,
+        "y": 79,
+        "w": 612,
+        "h": 82
+    },
+    {
+        "id": "12619ff6dc9ff25c",
+        "type": "ui_text_input",
+        "z": "689525d2b0418bc9",
+        "g": "6b04ef086f6ceeab",
+        "name": "",
+        "label": "Минимум",
+        "tooltip": "",
+        "group": "d4e8ef92094e0c11",
+        "order": 3,
+        "width": "3",
+        "height": "1",
+        "passthru": true,
+        "mode": "number",
+        "delay": 300,
+        "topic": "topic",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 640,
+        "y": 80,
+        "wires": [
+            [
+                "8b13d542fd91b9c6"
+            ]
+        ]
+    },
+    {
+        "id": "8b13d542fd91b9c6",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "6b04ef086f6ceeab",
+        "name": "Save",
+        "func": "global.set(msg.topic, msg.payload, 'file');\nmsg.res = global.get(msg.topic, 'file');\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "728f3554a973baab",
+        "type": "inject",
+        "z": "689525d2b0418bc9",
+        "g": "6b04ef086f6ceeab",
+        "name": "1",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "1",
+        "x": 110,
+        "y": 140,
+        "wires": [
+            [
+                "6c544b151d4ca137",
+                "614a035500daafd3",
+                "4df882c2bec0eeaf",
+                "b634d2db94e2935f"
+            ]
+        ]
+    },
+    {
+        "id": "c2ba68fca1a350df",
+        "type": "ui_text_input",
+        "z": "689525d2b0418bc9",
+        "g": "6b04ef086f6ceeab",
+        "name": "",
+        "label": "Максимум",
+        "tooltip": "",
+        "group": "d4e8ef92094e0c11",
+        "order": 3,
+        "width": "3",
+        "height": "1",
+        "passthru": true,
+        "mode": "number",
+        "delay": 300,
+        "topic": "topic",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 650,
+        "y": 120,
+        "wires": [
+            [
+                "e8ab13135a55c2c2"
+            ]
+        ]
+    },
+    {
+        "id": "e8ab13135a55c2c2",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "6b04ef086f6ceeab",
+        "name": "Save",
+        "func": "global.set(msg.topic, msg.payload, 'file');\nmsg.res = global.get(msg.topic, 'file');\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f40aa3b089b9557e",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "6b04ef086f6ceeab",
+        "name": "get default 0",
+        "func": "var res = global.get(msg.topic, 'file');\nif(res === undefined)\n    res = 0\nmsg.payload = res;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 80,
+        "wires": [
+            [
+                "12619ff6dc9ff25c"
+            ]
+        ]
+    },
+    {
+        "id": "bb5c81d1cc65154a",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "6b04ef086f6ceeab",
+        "name": "get default 98",
+        "func": "var res = global.get(msg.topic, 'file');\nnode.log(res);\nif(res === undefined)\n    res = 98\nmsg.payload = res;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 120,
+        "wires": [
+            [
+                "c2ba68fca1a350df"
+            ]
+        ]
+    },
+    {
+        "id": "6c544b151d4ca137",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "6b04ef086f6ceeab",
+        "name": "+min",
+        "func": "msg.topic = 'Temperature' + msg.topic  + 'min'\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 80,
+        "wires": [
+            [
+                "f40aa3b089b9557e"
+            ]
+        ]
+    },
+    {
+        "id": "614a035500daafd3",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "6b04ef086f6ceeab",
+        "name": "+max",
+        "func": "msg.topic = 'Temperature' + msg.topic + 'max'\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 120,
+        "wires": [
+            [
+                "bb5c81d1cc65154a"
+            ]
+        ]
+    },
+    {
+        "id": "c0b2806be99caf07",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "6b04ef086f6ceeab",
+        "name": "get default UpOrDown",
+        "func": "var res = global.get(msg.topic, 'file');\nnode.log(res);\nif(res === undefined)\n    res = true // 0 = up(на охлаждение), 1 = down(на отогрев) \nmsg.payload = res;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 160,
+        "wires": [
+            [
+                "9f3b01a20033b654"
+            ]
+        ]
+    },
+    {
+        "id": "4df882c2bec0eeaf",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "6b04ef086f6ceeab",
+        "name": "+UpDownType",
+        "func": "msg.topic = 'UpDownType' + msg.topic\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 160,
+        "wires": [
+            [
+                "c0b2806be99caf07"
+            ]
+        ]
+    },
+    {
+        "id": "9f3b01a20033b654",
+        "type": "ui_multistate_switch",
+        "z": "689525d2b0418bc9",
+        "g": "6b04ef086f6ceeab",
+        "name": "",
+        "group": "d4e8ef92094e0c11",
+        "order": 8,
+        "width": 0,
+        "height": 1,
+        "label": "Режим работы",
+        "stateField": "payload",
+        "enableField": "enable",
+        "passthroughField": "passthrough",
+        "inputMsgField": "inputmsg",
+        "rounded": false,
+        "useThemeColors": true,
+        "hideSelectedLabel": false,
+        "multilineLabel": false,
+        "passThrough": "never",
+        "inputMsg": "all",
+        "userInput": "enabled_show",
+        "options": [
+            {
+                "label": "Охлаж",
+                "value": "false",
+                "valueType": "bool",
+                "color": "#009933"
+            },
+            {
+                "label": "Нагрев",
+                "value": "true",
+                "valueType": "bool",
+                "color": "#999999"
+            }
+        ],
+        "topic": "UpDownType1",
+        "x": 700,
+        "y": 160,
+        "wires": [
+            [
+                "89e7e43bc1eb3684"
+            ]
+        ]
+    },
+    {
+        "id": "89e7e43bc1eb3684",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "6b04ef086f6ceeab",
+        "name": "Save",
+        "func": "global.set(msg.topic, msg.payload, 'file');\nmsg.res = global.get(msg.topic, 'file');\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "47d1528da730f0a5",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "6b04ef086f6ceeab",
+        "name": "get default IsAutoType",
+        "func": "var res = global.get(msg.topic, 'file');\nnode.log(res);\nif(res === undefined)\n    res = 'auto' // 0 = auto, 1 = on, 2 - off \nmsg.payload = res;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 200,
+        "wires": [
+            [
+                "d07bf545c073aeae"
+            ]
+        ]
+    },
+    {
+        "id": "b634d2db94e2935f",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "6b04ef086f6ceeab",
+        "name": "+IsAutoType",
+        "func": "msg.topic = 'IsAutoType' + msg.topic\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 200,
+        "wires": [
+            [
+                "47d1528da730f0a5"
+            ]
+        ]
+    },
+    {
+        "id": "d07bf545c073aeae",
+        "type": "ui_multistate_switch",
+        "z": "689525d2b0418bc9",
+        "g": "6b04ef086f6ceeab",
+        "name": "",
+        "group": "d4e8ef92094e0c11",
+        "order": 8,
+        "width": 0,
+        "height": 1,
+        "label": "Режим работы",
+        "stateField": "payload",
+        "enableField": "enable",
+        "passthroughField": "passthrough",
+        "inputMsgField": "inputmsg",
+        "rounded": false,
+        "useThemeColors": true,
+        "hideSelectedLabel": false,
+        "multilineLabel": false,
+        "passThrough": "never",
+        "inputMsg": "all",
+        "userInput": "enabled_show",
+        "options": [
+            {
+                "label": "авто.",
+                "value": "auto",
+                "valueType": "str",
+                "color": "#009933"
+            },
+            {
+                "label": "вкл. ",
+                "value": "on",
+                "valueType": "str",
+                "color": "#999999"
+            },
+            {
+                "label": "выкл.",
+                "value": "off",
+                "valueType": "str",
+                "color": "#ff6666"
+            }
+        ],
+        "topic": "IsAutoType1",
+        "x": 700,
+        "y": 200,
+        "wires": [
+            [
+                "0ba792ba1f529bbb"
+            ]
+        ]
+    },
+    {
+        "id": "0ba792ba1f529bbb",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "6b04ef086f6ceeab",
+        "name": "Save",
+        "func": "global.set(msg.topic, msg.payload, 'file');\nmsg.res = global.get(msg.topic, 'file');\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cea16552c2645a5b",
+        "type": "ui_text_input",
+        "z": "689525d2b0418bc9",
+        "g": "9a2e40c463f71938",
+        "name": "",
+        "label": "Минимум",
+        "tooltip": "",
+        "group": "77b399c1a35759fc",
+        "order": 3,
+        "width": "3",
+        "height": "1",
+        "passthru": true,
+        "mode": "number",
+        "delay": 300,
+        "topic": "topic",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 680,
+        "y": 300,
+        "wires": [
+            [
+                "1173066e3aeb9bd1"
+            ]
+        ]
+    },
+    {
+        "id": "1173066e3aeb9bd1",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "9a2e40c463f71938",
+        "name": "Save",
+        "func": "global.set(msg.topic, msg.payload, 'file');\nmsg.res = global.get(msg.topic, 'file');\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bed8b1a698097c77",
+        "type": "inject",
+        "z": "689525d2b0418bc9",
+        "g": "9a2e40c463f71938",
+        "name": "2",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "2",
+        "x": 110,
+        "y": 360,
+        "wires": [
+            [
+                "ed683e7a1dc9acc2",
+                "48be7707fbfd218a",
+                "49cd621a58436a00",
+                "42d9282f89b6e5a5"
+            ]
+        ]
+    },
+    {
+        "id": "b4ab6c8631d5b34f",
+        "type": "ui_text_input",
+        "z": "689525d2b0418bc9",
+        "g": "9a2e40c463f71938",
+        "name": "",
+        "label": "Максимум",
+        "tooltip": "",
+        "group": "77b399c1a35759fc",
+        "order": 3,
+        "width": "3",
+        "height": "1",
+        "passthru": true,
+        "mode": "number",
+        "delay": 300,
+        "topic": "topic",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 690,
+        "y": 340,
+        "wires": [
+            [
+                "bfa37e73fbd6e268"
+            ]
+        ]
+    },
+    {
+        "id": "bfa37e73fbd6e268",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "9a2e40c463f71938",
+        "name": "Save",
+        "func": "global.set(msg.topic, msg.payload, 'file');\nmsg.res = global.get(msg.topic, 'file');\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3f0a0d368ccb7664",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "9a2e40c463f71938",
+        "name": "get default",
+        "func": "var res = global.get(msg.topic, 'file');\nif(res === undefined)\n    res = 86\nmsg.payload = res;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 300,
+        "wires": [
+            [
+                "cea16552c2645a5b"
+            ]
+        ]
+    },
+    {
+        "id": "d4acc5aa71b9ec45",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "9a2e40c463f71938",
+        "name": "get default 86",
+        "func": "var res = global.get(msg.topic, 'file');\nnode.log(res);\nif(res === undefined)\n    res = 86.5\nmsg.payload = res;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 340,
+        "wires": [
+            [
+                "b4ab6c8631d5b34f"
+            ]
+        ]
+    },
+    {
+        "id": "ed683e7a1dc9acc2",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "9a2e40c463f71938",
+        "name": "+min",
+        "func": "msg.topic = 'Temperature' + msg.topic  + 'min'\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 300,
+        "wires": [
+            [
+                "3f0a0d368ccb7664"
+            ]
+        ]
+    },
+    {
+        "id": "48be7707fbfd218a",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "9a2e40c463f71938",
+        "name": "+max",
+        "func": "msg.topic = 'Temperature' + msg.topic + 'max'\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 340,
+        "wires": [
+            [
+                "d4acc5aa71b9ec45"
+            ]
+        ]
+    },
+    {
+        "id": "42f7bbafeae53f5d",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "9a2e40c463f71938",
+        "name": "get default UpOrDown",
+        "func": "var res = global.get(msg.topic, 'file');\nnode.log(res);\nif(res === undefined)\n    res = false // 0 = up(на охлаждение), 1 = down(на отогрев) \nmsg.payload = res;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 380,
+        "wires": [
+            [
+                "98e244df847f1cd8"
+            ]
+        ]
+    },
+    {
+        "id": "49cd621a58436a00",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "9a2e40c463f71938",
+        "name": "+UpDownType",
+        "func": "msg.topic = 'UpDownType' + msg.topic\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 380,
+        "wires": [
+            [
+                "42f7bbafeae53f5d"
+            ]
+        ]
+    },
+    {
+        "id": "98e244df847f1cd8",
+        "type": "ui_multistate_switch",
+        "z": "689525d2b0418bc9",
+        "g": "9a2e40c463f71938",
+        "name": "",
+        "group": "77b399c1a35759fc",
+        "order": 8,
+        "width": 0,
+        "height": 1,
+        "label": "Режим работы",
+        "stateField": "payload",
+        "enableField": "enable",
+        "passthroughField": "passthrough",
+        "inputMsgField": "inputmsg",
+        "rounded": false,
+        "useThemeColors": true,
+        "hideSelectedLabel": false,
+        "multilineLabel": false,
+        "passThrough": "never",
+        "inputMsg": "all",
+        "userInput": "enabled_show",
+        "options": [
+            {
+                "label": "Охлаж",
+                "value": "false",
+                "valueType": "bool",
+                "color": "#009933"
+            },
+            {
+                "label": "Нагрев",
+                "value": "true",
+                "valueType": "bool",
+                "color": "#999999"
+            }
+        ],
+        "topic": "UpDownType2",
+        "x": 700,
+        "y": 380,
+        "wires": [
+            [
+                "2fc4430d6c36c92b"
+            ]
+        ]
+    },
+    {
+        "id": "2fc4430d6c36c92b",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "9a2e40c463f71938",
+        "name": "Save",
+        "func": "global.set(msg.topic, msg.payload, 'file');\nmsg.res = global.get(msg.topic, 'file');\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "42d9282f89b6e5a5",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "9a2e40c463f71938",
+        "name": "+IsAutoType",
+        "func": "msg.topic = 'IsAutoType' + msg.topic\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 420,
+        "wires": [
+            [
+                "7b504fa562d3be08"
+            ]
+        ]
+    },
+    {
+        "id": "7b504fa562d3be08",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "9a2e40c463f71938",
+        "name": "get default IsAutoType",
+        "func": "var res = global.get(msg.topic, 'file');\nnode.log(res);\nif(res === undefined)\n    res = 'auto' // 0 = auto, 1 = on, 2 - off \nmsg.payload = res;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 420,
+        "wires": [
+            [
+                "25df1cd13ce7bb4a"
+            ]
+        ]
+    },
+    {
+        "id": "25df1cd13ce7bb4a",
+        "type": "ui_multistate_switch",
+        "z": "689525d2b0418bc9",
+        "g": "9a2e40c463f71938",
+        "name": "",
+        "group": "77b399c1a35759fc",
+        "order": 8,
+        "width": 0,
+        "height": 1,
+        "label": "Режим работы",
+        "stateField": "payload",
+        "enableField": "enable",
+        "passthroughField": "passthrough",
+        "inputMsgField": "inputmsg",
+        "rounded": false,
+        "useThemeColors": true,
+        "hideSelectedLabel": false,
+        "multilineLabel": false,
+        "passThrough": "never",
+        "inputMsg": "all",
+        "userInput": "enabled_show",
+        "options": [
+            {
+                "label": "авто.",
+                "value": "auto",
+                "valueType": "str",
+                "color": "#009933"
+            },
+            {
+                "label": "вкл. ",
+                "value": "on",
+                "valueType": "str",
+                "color": "#999999"
+            },
+            {
+                "label": "выкл.",
+                "value": "off",
+                "valueType": "str",
+                "color": "#ff6666"
+            }
+        ],
+        "topic": "IsAutoType2",
+        "x": 700,
+        "y": 420,
+        "wires": [
+            [
+                "5ef1562818897dd5"
+            ]
+        ]
+    },
+    {
+        "id": "5ef1562818897dd5",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "9a2e40c463f71938",
+        "name": "Save",
+        "func": "global.set(msg.topic, msg.payload, 'file');\nmsg.res = global.get(msg.topic, 'file');\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e83fdb465265039a",
+        "type": "ui_multistate_switch",
+        "z": "689525d2b0418bc9",
+        "g": "b4d9458bdc57e976",
+        "name": "",
+        "group": "6335583be6530cfb",
+        "order": 7,
+        "width": "0",
+        "height": "0",
+        "label": "",
+        "stateField": "payload",
+        "enableField": "enable",
+        "passthroughField": "passthrough",
+        "inputMsgField": "inputmsg",
+        "rounded": true,
+        "useThemeColors": true,
+        "hideSelectedLabel": false,
+        "multilineLabel": false,
+        "passThrough": "never",
+        "inputMsg": "all",
+        "userInput": "enabled_show",
+        "options": [
+            {
+                "label": "СТОП",
+                "value": "Stop",
+                "valueType": "str",
+                "color": "#cccc00"
+            },
+            {
+                "label": "Греем",
+                "value": "Warm",
+                "valueType": "str",
+                "color": "#009933"
+            },
+            {
+                "label": "Головы",
+                "value": "Heads",
+                "valueType": "str",
+                "color": "#999999"
+            },
+            {
+                "label": "Тело",
+                "value": "Body",
+                "valueType": "str",
+                "color": "#ff6666"
+            },
+            {
+                "label": "Хвосты",
+                "value": "Tails",
+                "valueType": "str",
+                "color": "#009999"
+            }
+        ],
+        "topic": "StateMachine",
+        "x": 380,
+        "y": 580,
+        "wires": [
+            [
+                "77127fc1e1b9c16a",
+                "051c8c1c09216cb8",
+                "87f930b8710e94c9"
+            ]
+        ]
+    },
+    {
+        "id": "a5fe9d0f7ad6a0ee",
+        "type": "link in",
+        "z": "689525d2b0418bc9",
+        "g": "b4d9458bdc57e976",
+        "name": "State machine link in ",
+        "links": [],
+        "x": 195,
+        "y": 580,
+        "wires": [
+            [
+                "e83fdb465265039a"
+            ]
+        ]
+    },
+    {
+        "id": "1e91d634d6c36763",
+        "type": "link out",
+        "z": "689525d2b0418bc9",
+        "g": "b4d9458bdc57e976",
+        "name": "link out from state machine",
+        "mode": "link",
+        "links": [
+            "8144d31cbdf6d265",
+            "a2bd41641f3f0235"
+        ],
+        "x": 835,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "67685377850bfae8",
+        "type": "ui_audio",
+        "z": "689525d2b0418bc9",
+        "g": "b4d9458bdc57e976",
+        "name": "audio player",
+        "group": "840f55649a14afa5",
+        "voice": "Microsoft Irina - Russian (Russia)",
+        "always": true,
+        "x": 890,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "a37412cc2382df3b",
+        "type": "link in",
+        "z": "689525d2b0418bc9",
+        "g": "b4d9458bdc57e976",
+        "name": "link in audio speaker",
+        "links": [
+            "a1b3c8bf1d994d47"
+        ],
+        "x": 725,
+        "y": 560,
+        "wires": [
+            [
+                "67685377850bfae8"
+            ]
+        ]
+    },
+    {
+        "id": "77127fc1e1b9c16a",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "b4d9458bdc57e976",
+        "name": "Audio retranslator",
+        "func": "switch(msg.payload){\n    case \"Stop\":\n        msg.payload = \"Стоп машина! Отдать швартовый!\";\n        break;\n    case \"Warm\":\n        msg.payload = \"Ключ на старт! Прогрев всех систем!\";\n        break;\n    case \"Heads\":\n        msg.payload = \"Свистать всех наверх! Головы пошли.\";\n        break;\n    case \"Body\":\n        msg.payload = \"Поехали. Начинаем отбор тела.\";\n        break; \n    case \"Tails\":\n        msg.payload = \"ТАБАНЬ!!! Хвосты пошли, вентиль крути, да-да вот тот...\";\n        break;\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 600,
+        "wires": [
+            [
+                "67685377850bfae8"
+            ]
+        ],
+        "inputLabels": [
+            "en"
+        ],
+        "outputLabels": [
+            "ru"
+        ],
+        "icon": "node-red/switch.svg"
+    },
+    {
+        "id": "31f461edc6a1512f",
+        "type": "ui_text",
+        "z": "689525d2b0418bc9",
+        "g": "b4d9458bdc57e976",
+        "group": "7060957109fdbc8f",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "name": "",
+        "label": "Состояние",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 910,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "051c8c1c09216cb8",
+        "type": "change",
+        "z": "689525d2b0418bc9",
+        "g": "b4d9458bdc57e976",
+        "name": "En->Ru",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "Stop",
+                "fromt": "str",
+                "to": "Останов",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "Warm",
+                "fromt": "str",
+                "to": "Нагрев",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "Tails",
+                "fromt": "str",
+                "to": "Хвосты отсекаем",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "Heads",
+                "fromt": "str",
+                "to": "Головы идут",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "Body",
+                "fromt": "str",
+                "to": "Отбор тела",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 620,
+        "y": 700,
+        "wires": [
+            [
+                "31f461edc6a1512f",
+                "1e2b45a776c1f40b",
+                "de6400fd398eacda"
+            ]
+        ]
+    },
+    {
+        "id": "1e2b45a776c1f40b",
+        "type": "link out",
+        "z": "689525d2b0418bc9",
+        "g": "b4d9458bdc57e976",
+        "name": "link out from state machine",
+        "mode": "link",
+        "links": [
+            "3692ce669cc3eccf"
+        ],
+        "x": 835,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "1a471075877ffdce",
+        "type": "debug",
+        "z": "689525d2b0418bc9",
+        "g": "b4d9458bdc57e976",
+        "name": "debug 34",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 380,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "de6400fd398eacda",
+        "type": "debug",
+        "z": "689525d2b0418bc9",
+        "g": "b4d9458bdc57e976",
+        "name": "debug 35",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "a181fa0173df9933",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "b4d9458bdc57e976",
+        "name": "get state",
+        "func": "msg.topic = 'StateMachine';\nmsg.payload = global.get(msg.topic, 'file');\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 220,
+        "y": 680,
+        "wires": [
+            [
+                "e83fdb465265039a",
+                "1a471075877ffdce",
+                "77127fc1e1b9c16a",
+                "051c8c1c09216cb8",
+                "87f930b8710e94c9"
+            ]
+        ]
+    },
+    {
+        "id": "43f0b3836ed4f1ca",
+        "type": "inject",
+        "z": "689525d2b0418bc9",
+        "g": "b4d9458bdc57e976",
+        "name": "S",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 620,
+        "wires": [
+            [
+                "a181fa0173df9933"
+            ]
+        ]
+    },
+    {
+        "id": "87f930b8710e94c9",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "b4d9458bdc57e976",
+        "name": "Save",
+        "func": "global.set(msg.topic, msg.payload, 'file');\nmsg.res = global.get(msg.topic, 'file');\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 640,
+        "wires": [
+            [
+                "1e91d634d6c36763"
+            ]
+        ]
+    },
+    {
+        "id": "21586bd94f6e25e2",
+        "type": "inject",
+        "z": "689525d2b0418bc9",
+        "d": true,
+        "g": "b4d9458bdc57e976",
+        "name": "Hallo world!",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Привет, жестокий мир!",
+        "payloadType": "str",
+        "x": 610,
+        "y": 560,
+        "wires": [
+            [
+                "67685377850bfae8"
+            ]
+        ]
+    },
+    {
+        "id": "87088b0a3bb7a69a",
+        "type": "inject",
+        "z": "689525d2b0418bc9",
+        "g": "9aa4b0bba078587c",
+        "name": "Run",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "SensorToGPIOs",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1030,
+        "y": 120,
+        "wires": [
+            [
+                "83ca7f8c65331869"
+            ]
+        ]
+    },
+    {
+        "id": "83ca7f8c65331869",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "9aa4b0bba078587c",
+        "name": "Get table SensorToGPIOs",
+        "func": "msg.SensorToGPIOs = [\n        { 1: 24 },  // реле главного канала 30A\n        { 2: 22 },  // реле клапана отбора\n        { 3: 27 },  // реле подачи воды\n        { 4: 17 },  // реле охлаждения воды\n        { 5: 25 },  // Реле модуля 1\n        { 6: 28 },  // Реле модуля 2\n        { 7: 29 }   // Реле модуля 3\n    ];\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1230,
+        "y": 120,
+        "wires": [
+            [
+                "b694343cdfcf3c88"
+            ]
+        ],
+        "info": "## Таблица соответствия сенсоров к GPIO выходам\r\n### Сенсором может выступать просто кнопка включения в интерфейсе\r\n\r\nint SensorId\r\nint GPIO\r\n\r\n - 1 24\r\n - 2 22\r\n - 3\r\n - 4 \r\n - 5\r\n - 6 \r\n - 7"
+    },
+    {
+        "id": "b694343cdfcf3c88",
+        "type": "function",
+        "z": "689525d2b0418bc9",
+        "g": "9aa4b0bba078587c",
+        "name": "Save",
+        "func": "global.set(msg.topic, msg.SensorToGPIOs, 'file');\nmsg.res = global.get(msg.topic, 'file');\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1470,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d4e8ef92094e0c11",
+        "type": "ui_group",
+        "name": "Плитка",
+        "tab": "c03e4b51a0a6beba",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "77b399c1a35759fc",
+        "type": "ui_group",
+        "name": "Узел отбора",
+        "tab": "c03e4b51a0a6beba",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "6335583be6530cfb",
+        "type": "ui_group",
+        "name": "Состояние машины",
+        "tab": "c03e4b51a0a6beba",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "840f55649a14afa5",
+        "type": "ui_group",
+        "name": "filters",
+        "tab": "e2f9f138b1d03a25",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "7060957109fdbc8f",
+        "type": "ui_group",
+        "name": "Параметры",
+        "tab": "0a82b83cd78e01d2",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "c03e4b51a0a6beba",
+        "type": "ui_tab",
+        "name": "Настройки",
+        "icon": "gears",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "e2f9f138b1d03a25",
+        "type": "ui_tab",
+        "name": "Tests",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "0a82b83cd78e01d2",
+        "type": "ui_tab",
+        "name": "Состояние машины",
+        "icon": "rotate_90_degrees_ccw",
+        "disabled": false,
+        "hidden": false
+    }
+]
