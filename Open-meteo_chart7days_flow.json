@@ -84,7 +84,7 @@
                 class="temp-dot"
             />
 
-            <!-- Temperature value labels -->
+            <!-- Temperature labels -->
             <text
                 v-for="(item,index) in data"
                 :key="'templabel'+index"
@@ -101,10 +101,14 @@
         </svg>
     </div>
 
-    <!-- Wind row with unit -->
+    <!-- Wind row -->
     <div class="wind-row">
         <div class="wind-label">км/ч</div>
-        <div v-for="(item,index) in data" :key="'w'+index" class="wind-cell">
+        <div 
+            v-for="(item,index) in data" 
+            :key="'w'+index" 
+            class="wind-cell"
+        >
             <div class="arrow" :style="'transform:rotate('+item.windDir+'deg)'">➤</div>
             <div class="speed">{{Math.round(item.windSpeed)}}</div>
         </div>
@@ -196,7 +200,7 @@ export default {
 .wind-row {
     display: flex;
     width: max-content;
-    padding-left: 72px;   /* выравнивание под график */
+    padding-left: 72px;
 }
 
 .header-cell,
@@ -237,17 +241,19 @@ export default {
     opacity: 0.9;
 }
 
+/* Wind */
 .wind-row {
     align-items: flex-start;
 }
 
 .wind-label {
-    width: 72px;
+    position: absolute;
+    left: 12px;
+    width: 60px;
     font-size: 11px;
     color: #aaa;
     padding-top: 4px;
     text-align: center;
-    flex-shrink: 0;
 }
 
 .wind-cell {
@@ -267,7 +273,7 @@ export default {
     margin-top: 1px;
 }
 
-/* Axis text */
+/* Axis */
 .temp-axis text,
 .rain-axis text {
     user-select: none;
