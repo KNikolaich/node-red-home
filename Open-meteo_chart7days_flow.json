@@ -1,281 +1,218 @@
-<template>
-
-<div class="forecast-wrap" v-if="data.length">
-
-    <div class="forecast-header">
-        <div v-for="(item,index) in data" :key="'d'+index" class="header-cell">
-            <template v-if="index===0 || item.date!==data[index-1].date">
-                <div class="day">{{item.day}}</div>
-                <div class="date">{{item.date}}</div>
-            </template>
-        </div>
-    </div>
-
-    <div class="forecast-hours">
-        <div v-for="(item,index) in data" :key="'h'+index" class="hour-cell">
-            {{item.hour}}
-        </div>
-    </div>
-
-    <div class="forecast-icons">
-        <div v-for="(item,index) in data" :key="'i'+index" class="icon-cell">
-            {{item.icon}}
-        </div>
-    </div>
-
-    <div class="chart-box">
-        <svg :width="svgWidth + 155" height="365" class="chart-svg">
-
-            <!-- Horizontal grid -->
-            <line v-for="n in 13" :key="'hgrid'+n" 
-                  x1="72" :y1="32 + n*24" 
-                  :x2="svgWidth + 68" :y2="32 + n*24" class="grid"/>
-
-            <!-- Vertical grid -->
-            <line v-for="n in data.length" :key="'vgrid'+n"
-                  :x1="72 + n*cellWidth" y1="32" 
-                  :x2="72 + n*cellWidth" y2="335" class="grid"/>
-
-            <!-- Temperature Y-axis -->
-            <g class="temp-axis">
-                <line x1="67" y1="32" x2="67" y2="335" stroke="#777" stroke-width="1.5"/>
-                <template v-for="(tick, i) in tempTicks" :key="'tt'+i">
-                    <line :x1="62" :y1="tempY(tick)" :x2="72" :y2="tempY(tick)" stroke="#888" stroke-width="1"/>
-                    <text :x="54" :y="tempY(tick) + 4" text-anchor="end" fill="#ccc" font-size="11.5">
-                        {{tick}}
-                    </text>
-                </template>
-                <text x="38" y="24" fill="#ddd" font-size="13" font-weight="bold">°C</text>
-            </g>
-
-            <!-- Precipitation Y-axis -->
-            <g class="rain-axis">
-                <line :x1="svgWidth + 78" y1="32" :x2="svgWidth + 78" y2="335" stroke="#777" stroke-width="1.5"/>
-                <template v-for="(tick, i) in rainTicks" :key="'rt'+i">
-                    <line :x1="svgWidth + 78" :y1="rainY(tick.value)" :x2="svgWidth + 88" :y2="rainY(tick.value)" stroke="#888" stroke-width="1"/>
-                    <text :x="svgWidth + 96" :y="rainY(tick.value) + 4" text-anchor="start" fill="#7eb3ff" font-size="11.5">
-                        {{tick.label}}
-                    </text>
-                </template>
-                <text :x="svgWidth + 81" y="24" fill="#7eb3ff" font-size="13" font-weight="bold">мм</text>
-            </g>
-
-            <!-- Rain bars -->
-            <rect
-                v-for="(item,index) in data"
-                :key="'rain'+index"
-                :x="72 + index*cellWidth + 5"
-                :y="rainY(item.rain)"
-                :width="cellWidth-10"
-                :height="335 - rainY(item.rain)"
-                class="rain"
-            />
-
-            <!-- Temperature line -->
-            <polyline :points="tempPoints" class="temp-line"/>
-            
-            <!-- Temperature dots -->
-            <circle
-                v-for="(item,index) in data"
-                :key="'dot'+index"
-                :cx="72 + index*cellWidth + cellWidth/2"
-                :cy="tempY(item.temp)"
-                r="3.5"
-                class="temp-dot"
-            />
-
-            <!-- Temperature labels -->
-            <text
-                v-for="(item,index) in data"
-                :key="'templabel'+index"
-                :x="72 + index*cellWidth + cellWidth/2"
-                :y="tempY(item.temp) - 9"
-                text-anchor="middle"
-                fill="#ff4d5c"
-                font-size="10.8"
-                font-weight="600"
-            >
-                {{Math.round(item.temp)}}
-            </text>
-
-        </svg>
-    </div>
-
-    <!-- Wind row -->
-    <div class="wind-row">
-        <div class="wind-label">км/ч</div>
-        <div 
-            v-for="(item,index) in data" 
-            :key="'w'+index" 
-            class="wind-cell"
-        >
-            <div class="arrow" :style="'transform:rotate('+item.windDir+'deg)'">➤</div>
-            <div class="speed">{{Math.round(item.windSpeed)}}</div>
-        </div>
-    </div>
-
-</div>
-
-</template>
-
-<script>
-export default {
-    data() {
-        return {
-            data: [],
-            cellWidth: 36
-        }
+[
+    {
+        "id": "33200ff3ef52f475",
+        "type": "http request",
+        "z": "1b4d499daab9d751",
+        "g": "df680e52eca81b91",
+        "name": "Get 7 days open-meteo",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://fin.assistant.com.br/openmeteo/v1/forecast?latitude=59.9473&longitude=31.03845&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,weathercode,windspeed_10m,winddirection_10m,relative_humidity_2m&timezone=Europe/Moscow&forecast_days=7",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 410,
+        "y": 500,
+        "wires": [
+            [
+                "035f0b6c677abedb"
+            ]
+        ]
     },
-    computed: {
-        svgWidth() {
-            return this.data.length * this.cellWidth;
-        },
-        minTemp() {
-            return Math.floor(Math.min(...this.data.map(x => x.temp)) - 1.5);
-        },
-        maxTemp() {
-            return Math.ceil(Math.max(...this.data.map(x => x.temp)) + 1.5);
-        },
-        maxRain() {
-            return Math.max(5, ...this.data.map(x => Number(x.rain) || 0));
-        },
-        tempTicks() {
-            const range = this.maxTemp - this.minTemp;
-            const step = range > 16 ? 3 : 2;
-            const ticks = [];
-            let t = Math.floor(this.minTemp / step) * step;
-            while (t <= this.maxTemp + 1) {
-                ticks.push(t);
-                t += step;
+    {
+        "id": "dfb89b47bc15b5d7",
+        "type": "inject",
+        "z": "1b4d499daab9d751",
+        "g": "df680e52eca81b91",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
             }
-            return ticks;
-        },
-        rainTicks() {
-            const base = [0, 1, 2, 4, 7, 12, 20, 35];
-            return base
-                .filter(v => v <= this.maxRain * 1.2)
-                .map(v => ({value: v, label: v}));
-        },
-        tempPoints() {
-            return this.data.map((item, i) => 
-                (72 + i * this.cellWidth + this.cellWidth / 2) + "," + this.tempY(item.temp)
-            ).join(" ");
-        }
+        ],
+        "repeat": "3600",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 500,
+        "wires": [
+            [
+                "33200ff3ef52f475"
+            ]
+        ]
     },
-    watch: {
-        msg: {
-            deep: true,
-            handler(msg) {
-                if (msg?.payload?.data) this.data = msg.payload.data;
+    {
+        "id": "02fef40e4f219eaa",
+        "type": "debug",
+        "z": "1b4d499daab9d751",
+        "g": "df680e52eca81b91",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "035f0b6c677abedb",
+        "type": "function",
+        "z": "1b4d499daab9d751",
+        "g": "df680e52eca81b91",
+        "name": "mapping data",
+        "func": "const h = msg.payload.hourly;\n\nfunction icon(code){\n\n    const map = {\n        0:\"☀️\",\n        1:\"🌤️\",\n        2:\"⛅\",\n        3:\"☁️\",\n        45:\"🌫️\",\n        48:\"🌫️\",\n        51:\"🌦️\",\n        53:\"🌦️\",\n        55:\"🌦️\",\n        61:\"🌧️\",\n        63:\"🌧️\",\n        65:\"🌧️\",\n        71:\"❄️\",\n        73:\"❄️\",\n        75:\"❄️\",\n        80:\"🌦️\",\n        81:\"🌧️\",\n        82:\"🌧️\",\n        95:\"⛈️\",\n        96:\"⛈️\",\n        99:\"⛈️\"\n    };\n\n    return map[code] || \"❔\";\n}\n\nconst daysRu = [\n    \"Вс\",\"Пн\",\"Вт\",\"Ср\",\"Чт\",\"Пт\",\"Сб\"\n];\n\nvar data = h.time.map((t,i)=>{\n\n    const d = new Date(t);\n\n    return {\n        time: t,\n        day: daysRu[d.getDay()],\n        date: String(d.getDate()).padStart(2,\"0\") + \".\" +\n              String(d.getMonth()+1).padStart(2,\"0\"),\n        hour: d.getHours(),\n\n        temp: h.temperature_2m[i],\n        feels: h.apparent_temperature[i],\n\n        rain: h.precipitation[i],\n        rainProb: h.precipitation_probability[i],\n\n        humidity: h.relative_humidity_2m[i],\n\n        windSpeed: h.windspeed_10m[i],\n        windDir: h.winddirection_10m[i],\n\n        weatherCode: h.weathercode[i],\n        icon: icon(h.weathercode[i])\n    };\n});\n\nmsg.payload = { \"data\" : data, \"units\": msg.payload.hourly_units};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 500,
+        "wires": [
+            [
+                "02fef40e4f219eaa",
+                "56b09629a5596c01"
+            ]
+        ]
+    },
+    {
+        "id": "56b09629a5596c01",
+        "type": "ui-template",
+        "z": "1b4d499daab9d751",
+        "g": "df680e52eca81b91",
+        "group": "4bbdd02ff5de4f4c",
+        "page": "",
+        "ui": "",
+        "name": "charts open meteo",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "head": "",
+        "format": "<template>\n\n<div class=\"forecast-wrap\" v-if=\"data.length\">\n\n    <!-- Header with dates (only for multi-day) -->\n    <div class=\"forecast-header\">\n        <div v-for=\"(item,index) in data\" :key=\"'d'+index\" class=\"header-cell\">\n            <template v-if=\"index===0 || item.date!==data[index-1].date\">\n                <div class=\"day\">{{item.day}}</div>\n                <div class=\"date\">{{item.date}}</div>\n            </template>\n        </div>\n    </div>\n\n    <div class=\"forecast-hours\">\n        <div v-for=\"(item,index) in filteredData\" :key=\"'h'+index\" class=\"hour-cell\">\n            {{item.hour}}\n        </div>\n    </div>\n\n    <div class=\"forecast-icons\">\n        <div v-for=\"(item,index) in filteredData\" :key=\"'i'+index\" class=\"icon-cell\">\n            {{item.icon}}\n        </div>\n    </div>\n\n    <div class=\"chart-box\">\n        <svg :width=\"svgWidth + 155\" height=\"365\" class=\"chart-svg\">\n\n            <!-- Horizontal grid -->\n            <line v-for=\"n in 13\" :key=\"'hgrid'+n\" \n                  x1=\"72\" :y1=\"32 + n*24\" \n                  :x2=\"svgWidth + 68\" :y2=\"32 + n*24\" class=\"grid\"/>\n\n            <!-- Vertical grid -->\n            <line v-for=\"n in filteredData.length\" :key=\"'vgrid'+n\"\n                  :x1=\"72 + n*cellWidth\" y1=\"32\" \n                  :x2=\"72 + n*cellWidth\" y2=\"335\" class=\"grid\"/>\n\n            <!-- Temperature Y-axis -->\n            <g class=\"temp-axis\">\n                <line x1=\"67\" y1=\"32\" x2=\"67\" y2=\"335\" stroke=\"#777\" stroke-width=\"1.5\"/>\n                <template v-for=\"(tick, i) in tempTicks\" :key=\"'tt'+i\">\n                    <line :x1=\"62\" :y1=\"tempY(tick)\" :x2=\"72\" :y2=\"tempY(tick)\" stroke=\"#888\" stroke-width=\"1\"/>\n                    <text :x=\"54\" :y=\"tempY(tick) + 4\" text-anchor=\"end\" fill=\"#ccc\" font-size=\"11.5\">\n                        {{tick}}\n                    </text>\n                </template>\n                <text x=\"38\" y=\"24\" fill=\"#ddd\" font-size=\"13\" font-weight=\"bold\">°C</text>\n            </g>\n\n            <!-- Precipitation Y-axis -->\n            <g class=\"rain-axis\">\n                <line :x1=\"svgWidth + 78\" y1=\"32\" :x2=\"svgWidth + 78\" y2=\"335\" stroke=\"#777\" stroke-width=\"1.5\"/>\n                <template v-for=\"(tick, i) in rainTicks\" :key=\"'rt'+i\">\n                    <line :x1=\"svgWidth + 78\" :y1=\"rainY(tick.value)\" :x2=\"svgWidth + 88\" :y2=\"rainY(tick.value)\" stroke=\"#888\" stroke-width=\"1\"/>\n                    <text :x=\"svgWidth + 96\" :y=\"rainY(tick.value) + 4\" text-anchor=\"start\" fill=\"#7eb3ff\" font-size=\"11.5\">\n                        {{tick.label}}\n                    </text>\n                </template>\n                <text :x=\"svgWidth + 81\" y=\"24\" fill=\"#7eb3ff\" font-size=\"13\" font-weight=\"bold\">мм</text>\n            </g>\n\n            <!-- Rain bars -->\n            <rect\n                v-for=\"(item,index) in filteredData\"\n                :key=\"'rain'+index\"\n                :x=\"72 + index*cellWidth + 5\"\n                :y=\"rainY(item.rain)\"\n                :width=\"cellWidth-10\"\n                :height=\"335 - rainY(item.rain)\"\n                class=\"rain\"\n            />\n\n            <!-- Temperature line -->\n            <polyline :points=\"tempPoints\" class=\"temp-line\"/>\n            \n            <!-- Temperature dots -->\n            <circle\n                v-for=\"(item,index) in filteredData\"\n                :key=\"'dot'+index\"\n                :cx=\"72 + index*cellWidth + cellWidth/2\"\n                :cy=\"tempY(item.temp)\"\n                r=\"3.5\"\n                class=\"temp-dot\"\n            />\n\n            <!-- Temperature labels -->\n            <text\n                v-for=\"(item,index) in filteredData\"\n                :key=\"'templabel'+index\"\n                :x=\"72 + index*cellWidth + cellWidth/2\"\n                :y=\"tempY(item.temp) - 9\"\n                text-anchor=\"middle\"\n                fill=\"#ff4d5c\"\n                font-size=\"10.8\"\n                font-weight=\"600\"\n            >\n                {{Math.round(item.temp)}}\n            </text>\n\n        </svg>\n    </div>\n\n    <!-- Wind row -->\n    <div class=\"wind-row\">\n        <div class=\"wind-label\">км/ч</div>\n        <div \n            v-for=\"(item,index) in filteredData\" \n            :key=\"'w'+index\" \n            class=\"wind-cell\"\n        >\n            <div class=\"arrow\" :style=\"'transform:rotate('+item.windDir+'deg)'\">➤</div>\n            <div class=\"speed\">{{Math.round(item.windSpeed)}}</div>\n        </div>\n    </div>\n\n    <!-- Date pagination -->\n    <div class=\"date-tabs\">\n        <div \n            v-for=\"(dateItem, index) in uniqueDates\" \n            :key=\"index\"\n            class=\"date-tab\"\n            :class=\"{ active: dateItem.date === selectedDate }\"\n            @click=\"selectDate(dateItem.date)\"\n        >\n            {{ dateItem.day }}<br>\n            <span class=\"tab-date\">{{ dateItem.date }}</span>\n        </div>\n    </div>\n\n</div>\n\n</template>\n\n<script>\nexport default {\n    data() {\n        return {\n            data: [],\n            cellWidth: 42,        // чуть шире, т.к. теперь один день\n            selectedDate: null\n        }\n    },\n    computed: {\n        uniqueDates() {\n            const dates = [];\n            const seen = new Set();\n            this.data.forEach(item => {\n                if (!seen.has(item.date)) {\n                    seen.add(item.date);\n                    dates.push({ date: item.date, day: item.day });\n                }\n            });\n            return dates;\n        },\n\n        filteredData() {\n            if (!this.selectedDate) return this.data;\n            return this.data.filter(item => item.date === this.selectedDate);\n        },\n\n        svgWidth() {\n            return this.filteredData.length * this.cellWidth;\n        },\n\n        minTemp() {\n            const temps = this.filteredData.map(x => x.temp);\n            return Math.floor(Math.min(...temps) - 1.5);\n        },\n        maxTemp() {\n            const temps = this.filteredData.map(x => x.temp);\n            return Math.ceil(Math.max(...temps) + 1.5);\n        },\n        maxRain() {\n            return Math.max(5, ...this.filteredData.map(x => Number(x.rain) || 0));\n        },\n\n        tempTicks() {\n            const range = this.maxTemp - this.minTemp;\n            const step = range > 16 ? 3 : 2;\n            const ticks = [];\n            let t = Math.floor(this.minTemp / step) * step;\n            while (t <= this.maxTemp + 1) {\n                ticks.push(t);\n                t += step;\n            }\n            return ticks;\n        },\n\n        rainTicks() {\n            const base = [0, 1, 2, 4, 7, 12, 20, 35];\n            return base\n                .filter(v => v <= this.maxRain * 1.2)\n                .map(v => ({value: v, label: v}));\n        },\n\n        tempPoints() {\n            return this.filteredData.map((item, i) => \n                (72 + i * this.cellWidth + this.cellWidth / 2) + \",\" + this.tempY(item.temp)\n            ).join(\" \");\n        }\n    },\n    watch: {\n        msg: {\n            deep: true,\n            handler(msg) {\n                if (msg?.payload?.data) {\n                    this.data = msg.payload.data;\n                    // Автоматически выбираем первый день\n                    if (this.data.length && !this.selectedDate) {\n                        this.selectedDate = this.data[0].date;\n                    }\n                }\n            }\n        }\n    },\n    methods: {\n        selectDate(date) {\n            this.selectedDate = date;\n        },\n        tempY(temp) {\n            const h = 303;\n            const range = this.maxTemp - this.minTemp || 1;\n            return 32 + h - ((temp - this.minTemp) / range) * h;\n        },\n        rainY(rain) {\n            const maxD = Math.max(this.maxRain, 12);\n            const norm = Math.min(rain / maxD, 1);\n            return 335 - Math.pow(norm, 0.65) * 303;\n        }\n    }\n}\n</script>\n\n<style>\n.forecast-wrap {\n    background: #151515;\n    color: white;\n    padding: 12px;\n    overflow-x: auto;\n    font-family: Arial, sans-serif;\n}\n\n.forecast-header,\n.forecast-hours,\n.forecast-icons,\n.wind-row {\n    display: flex;\n    width: max-content;\n    padding-left: 72px;\n}\n\n.header-cell,\n.hour-cell,\n.icon-cell,\n.wind-cell {\n    width: 42px;\n    text-align: center;\n}\n\n.header-cell { height: 40px; font-size: 11px; }\n.day { font-weight: bold; }\n.date { color: #aaa; font-size: 10.5px; }\n\n.hour-cell { font-size: 13px; color: #ddd; }\n.icon-cell { font-size: 26px; height: 36px; line-height: 36px; }\n\n.chart-box { margin: 8px 0 10px 0; width: max-content; }\n\n.chart-svg {\n    background: #1a1a1a;\n    overflow: visible;\n}\n\n.grid { stroke: #333; stroke-width: 1; }\n\n.temp-line {\n    fill: none;\n    stroke: #ff4d5c;\n    stroke-width: 3.5;\n    stroke-linejoin: round;\n}\n\n.temp-dot { fill: #ff4d5c; }\n\n.rain {\n    fill: #5a9eff;\n    opacity: 0.9;\n}\n\n.wind-label {\n    position: absolute;\n    left: 12px;\n    width: 60px;\n    font-size: 11px;\n    color: #aaa;\n    padding-top: 4px;\n    text-align: center;\n}\n\n.wind-cell {\n    font-size: 11.5px;\n    padding-top: 2px;\n}\n\n.arrow {\n    color: #7cff5f;\n    font-size: 20px;\n    height: 24px;\n    line-height: 24px;\n}\n\n.speed {\n    color: #ccc;\n    margin-top: 1px;\n}\n\n/* Date tabs */\n.date-tabs {\n    display: flex;\n    gap: 4px;\n    flex-wrap: wrap;\n    margin-top: 12px;\n    padding-left: 72px;\n}\n\n.date-tab {\n    padding: 8px 12px;\n    background: #252525;\n    border: 1px solid #444;\n    border-radius: 6px;\n    text-align: center;\n    cursor: pointer;\n    font-size: 12.5px;\n    min-width: 68px;\n    transition: all 0.2s;\n}\n\n.date-tab:hover {\n    background: #333;\n    border-color: #666;\n}\n\n.date-tab.active {\n    background: #ff4d5c;\n    border-color: #ff4d5c;\n    color: white;\n    font-weight: bold;\n}\n\n.tab-date {\n    font-size: 11px;\n    opacity: 0.85;\n}\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 950,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4bbdd02ff5de4f4c",
+        "type": "ui-group",
+        "name": "Meteo forecast",
+        "page": "db935c274d44f374",
+        "width": "12",
+        "height": "6",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "db935c274d44f374",
+        "type": "ui-page",
+        "name": "Meteo",
+        "ui": "87364a1b4a6d16ab",
+        "path": "/meteo",
+        "icon": "sun",
+        "layout": "grid",
+        "theme": "443ed21746fe1302",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
             }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "87364a1b4a6d16ab",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "443ed21746fe1302",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094ce",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "compact",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
         }
     },
-    methods: {
-        tempY(temp) {
-            const h = 303;
-            const range = this.maxTemp - this.minTemp || 1;
-            return 32 + h - ((temp - this.minTemp) / range) * h;
-        },
-        rainY(rain) {
-            const maxD = Math.max(this.maxRain, 12);
-            const norm = Math.min(rain / maxD, 1);
-            return 335 - Math.pow(norm, 0.65) * 303;
+    {
+        "id": "30559e01c65eb01c",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.30.2"
         }
     }
-}
-</script>
-
-<style>
-.forecast-wrap {
-    background: #151515;
-    color: white;
-    padding: 12px;
-    overflow-x: auto;
-    font-family: Arial, sans-serif;
-}
-
-.forecast-header,
-.forecast-hours,
-.forecast-icons,
-.wind-row {
-    display: flex;
-    width: max-content;
-    padding-left: 72px;
-}
-
-.header-cell,
-.hour-cell,
-.icon-cell,
-.wind-cell {
-    width: 36px;
-    text-align: center;
-}
-
-.header-cell { height: 40px; font-size: 11px; }
-.day { font-weight: bold; }
-.date { color: #aaa; font-size: 10.5px; }
-
-.hour-cell { font-size: 12.5px; color: #ddd; }
-.icon-cell { font-size: 24px; height: 34px; line-height: 34px; }
-
-.chart-box { margin: 8px 0 6px 0; width: max-content; }
-
-.chart-svg {
-    background: #1a1a1a;
-    overflow: visible;
-}
-
-.grid { stroke: #333; stroke-width: 1; }
-
-.temp-line {
-    fill: none;
-    stroke: #ff4d5c;
-    stroke-width: 3.5;
-    stroke-linejoin: round;
-}
-
-.temp-dot { fill: #ff4d5c; }
-
-.rain {
-    fill: #5a9eff;
-    opacity: 0.9;
-}
-
-/* Wind */
-.wind-row {
-    align-items: flex-start;
-}
-
-.wind-label {
-    position: absolute;
-    left: 12px;
-    width: 60px;
-    font-size: 11px;
-    color: #aaa;
-    padding-top: 4px;
-    text-align: center;
-}
-
-.wind-cell {
-    font-size: 11px;
-    padding-top: 2px;
-}
-
-.arrow {
-    color: #7cff5f;
-    font-size: 19px;
-    height: 22px;
-    line-height: 22px;
-}
-
-.speed {
-    color: #ccc;
-    margin-top: 1px;
-}
-
-/* Axis */
-.temp-axis text,
-.rain-axis text {
-    user-select: none;
-}
-</style>
+]
