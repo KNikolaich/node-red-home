@@ -1,0 +1,241 @@
+<template>
+
+<div class="forecast-wrap" v-if="data.length">
+
+    <div class="forecast-header">
+        <div v-for="(item,index) in data" :key="'d'+index" class="header-cell">
+            <template v-if="index===0 || item.date!==data[index-1].date">
+                <div class="day">{{item.day}}</div>
+                <div class="date">{{item.date}}</div>
+            </template>
+        </div>
+    </div>
+
+    <div class="forecast-hours">
+        <div v-for="(item,index) in data" :key="'h'+index" class="hour-cell">
+            {{item.hour}}
+        </div>
+    </div>
+
+    <div class="forecast-icons">
+        <div v-for="(item,index) in data" :key="'i'+index" class="icon-cell">
+            {{item.icon}}
+        </div>
+    </div>
+
+    <div class="chart-box">
+        <svg :width="svgWidth + 140" height="360" class="chart-svg">
+
+            <!-- Horizontal grid -->
+            <line v-for="n in 13" :key="'hgrid'+n" 
+                  x1="70" :y1="30 + n*24" 
+                  :x2="svgWidth + 55" :y2="30 + n*24" class="grid"/>
+
+            <!-- Vertical grid -->
+            <line v-for="n in data.length" :key="'vgrid'+n"
+                  :x1="70 + n*cellWidth" y1="30" 
+                  :x2="70 + n*cellWidth" y2="330" class="grid"/>
+
+            <!-- Temperature Y-axis (left) -->
+            <g class="temp-axis">
+                <line x1="65" y1="30" x2="65" y2="330" stroke="#777" stroke-width="1.5"/>
+                <template v-for="(tick, i) in tempTicks" :key="'tt'+i">
+                    <line :x1="60" :y1="tempY(tick)" :x2="70" :y2="tempY(tick)" stroke="#888" stroke-width="1"/>
+                    <text :x="53" :y="tempY(tick) + 4" text-anchor="end" fill="#ccc" font-size="11.5">
+                        {{tick}}
+                    </text>
+                </template>
+                <text x="38" y="22" fill="#ddd" font-size="13" font-weight="bold">°C</text>
+            </g>
+
+            <!-- Precipitation Y-axis (right) -->
+            <g class="rain-axis">
+                <line :x1="svgWidth + 75" y1="30" :x2="svgWidth + 75" y2="330" stroke="#777" stroke-width="1.5"/>
+                <template v-for="(tick, i) in rainTicks" :key="'rt'+i">
+                    <line :x1="svgWidth + 75" :y1="rainY(tick.value)" :x2="svgWidth + 85" :y2="rainY(tick.value)" stroke="#888" stroke-width="1"/>
+                    <text :x="svgWidth + 93" :y="rainY(tick.value) + 4" text-anchor="start" fill="#7eb3ff" font-size="11.5">
+                        {{tick.label}}
+                    </text>
+                </template>
+                <text :x="svgWidth + 78" y="22" fill="#7eb3ff" font-size="13" font-weight="bold">мм</text>
+            </g>
+
+            <!-- Rain bars -->
+            <rect
+                v-for="(item,index) in data"
+                :key="'rain'+index"
+                :x="70 + index*cellWidth + 5"
+                :y="rainY(item.rain)"
+                :width="cellWidth-10"
+                :height="330 - rainY(item.rain)"
+                class="rain"
+            />
+
+            <!-- Temperature line + dots -->
+            <polyline :points="tempPoints" class="temp-line"/>
+            <circle
+                v-for="(item,index) in data"
+                :key="'dot'+index"
+                :cx="70 + index*cellWidth + cellWidth/2"
+                :cy="tempY(item.temp)"
+                r="3.5"
+                class="temp-dot"
+            />
+
+            <!-- Temperature labels (improved position) -->
+            <text
+                v-for="(item,index) in data"
+                :key="'templabel'+index"
+                :x="70 + index*cellWidth + cellWidth/2"
+                :y="tempY(item.temp) - 9"
+                text-anchor="middle"
+                fill="#ff4d5c"
+                font-size="10.5"
+                font-weight="600"
+            >
+                {{Math.round(item.temp)}}
+            </text>
+
+        </svg>
+    </div>
+
+    <div class="wind-row">
+        <div v-for="(item,index) in data" :key="'w'+index" class="wind-cell">
+            <div class="arrow" :style="'transform:rotate('+item.windDir+'deg)'">➤</div>
+            <div class="speed">{{Math.round(item.windSpeed)}}</div>
+        </div>
+    </div>
+
+</div>
+
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            data: [],
+            cellWidth: 36
+        }
+    },
+    computed: {
+        svgWidth() {
+            return this.data.length * this.cellWidth;
+        },
+        minTemp() {
+            return Math.floor(Math.min(...this.data.map(x => x.temp)) - 1.5);
+        },
+        maxTemp() {
+            return Math.ceil(Math.max(...this.data.map(x => x.temp)) + 1.5);
+        },
+        maxRain() {
+            return Math.max(5, ...this.data.map(x => x.rain || 0));
+        },
+        tempTicks() {
+            const range = this.maxTemp - this.minTemp;
+            const step = range > 15 ? 3 : 2;
+            const ticks = [];
+            let t = Math.floor(this.minTemp / step) * step;
+            while (t <= this.maxTemp) {
+                ticks.push(t);
+                t += step;
+            }
+            return ticks;
+        },
+        rainTicks() {
+            const base = [0, 1, 2, 4, 7, 12, 20, 35];
+            return base
+                .filter(v => v <= this.maxRain * 1.15)
+                .map(v => ({value: v, label: v}));
+        },
+        tempPoints() {
+            return this.data.map((item, i) => 
+                (70 + i * this.cellWidth + this.cellWidth / 2) + "," + this.tempY(item.temp)
+            ).join(" ");
+        }
+    },
+    watch: {
+        msg: {
+            deep: true,
+            handler(msg) {
+                if (msg?.payload?.data) this.data = msg.payload.data;
+            }
+        }
+    },
+    methods: {
+        tempY(temp) {
+            const h = 300;
+            const range = this.maxTemp - this.minTemp || 1;
+            return 30 + h - ((temp - this.minTemp) / range) * h;
+        },
+        rainY(rain) {
+            const maxD = Math.max(this.maxRain, 10);
+            const norm = Math.min(rain / maxD, 1);
+            return 330 - Math.pow(norm, 0.65) * 300;   // мягкая квадратичная
+        }
+    }
+}
+</script>
+
+<style>
+.forecast-wrap {
+    background: #151515;
+    color: white;
+    padding: 12px;
+    overflow-x: auto;
+    font-family: Arial, sans-serif;
+}
+
+.forecast-header, .forecast-hours, .forecast-icons, .wind-row {
+    display: flex;
+    width: max-content;
+}
+
+.header-cell, .hour-cell, .icon-cell, .wind-cell {
+    width: 36px;
+    text-align: center;
+}
+
+.header-cell { height: 38px; font-size: 11px; }
+.day { font-weight: bold; }
+.date { color: #aaa; font-size: 10.5px; }
+
+.hour-cell { font-size: 12.5px; color: #ddd; }
+.icon-cell { font-size: 24px; height: 32px; line-height: 32px; }
+
+.chart-box { margin: 8px 0; width: max-content; }
+
+.chart-svg {
+    background: #1a1a1a;
+    overflow: visible;
+}
+
+.grid { stroke: #333; stroke-width: 1; }
+
+.temp-line {
+    fill: none;
+    stroke: #ff4d5c;
+    stroke-width: 3.5;
+    stroke-linejoin: round;
+}
+
+.temp-dot { fill: #ff4d5c; }
+
+.rain {
+    fill: #5a9eff;
+    opacity: 0.9;
+}
+
+.wind-cell { font-size: 11px; }
+.arrow {
+    color: #7cff5f;
+    font-size: 19px;
+    height: 22px;
+}
+.speed { color: #ccc; margin-top: 2px; }
+
+/* Axis */
+.temp-axis text, .rain-axis text {
+    user-select: none;
+}
+</style>
